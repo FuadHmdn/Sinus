@@ -62,10 +62,10 @@ data class CuacaItemItem(
 	val weatherDesc: String? = null,
 
 	@field:SerializedName("tp")
-	val tp: Int? = null,
+	val tp: Double? = null,
 
 	@field:SerializedName("ws")
-	val ws: Any? = null,
+	val ws: Double? = null,
 
 	@field:SerializedName("vs")
 	val vs: Int? = null

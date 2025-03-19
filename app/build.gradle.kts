@@ -10,12 +10,13 @@ android {
 
     defaultConfig {
         applicationId = "com.fuad.sinus"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BASE_URL", "\"https://api.bmkg.go.id/\"")
     }
 
     buildTypes {
@@ -57,10 +58,16 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
 
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     // Gson Converter
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     // Logging Interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0")
+
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
 }
