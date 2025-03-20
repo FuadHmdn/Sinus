@@ -6,9 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.fuad.sinus.data.Cuaca
 import com.fuad.sinus.data.remote.ApiService
 import com.fuad.sinus.data.remote.response.CuacaItemItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -26,7 +23,7 @@ class WeatherRepository(private val apiService: ApiService) {
             if (cuacaLists != null) {
                 val allCuacaItems = cuacaLists.filterNotNull().flatMap { it.filterNotNull() }
                 val cuacaTerbaru = getRealTimeWeather(allCuacaItems)
-                _cuaca.postValue(cuacaTerbaru) // Update LiveData di thread utama
+                _cuaca.postValue(cuacaTerbaru)
 
                 Log.d("CUACA", cuacaTerbaru?.foto ?: "Damn")
             } else {
@@ -35,7 +32,6 @@ class WeatherRepository(private val apiService: ApiService) {
         } catch (e: Exception) {
             e.printStackTrace()
             _cuaca.postValue(null)
-            Log.d("CUACA", e.message?: "ERROR")
         }
     }
 
@@ -57,11 +53,12 @@ class WeatherRepository(private val apiService: ApiService) {
 
         return nextWeather?.let { item ->
             Cuaca(
-                suhu = item.t?.toInt() ?: 0,
+                suhu = item.t?: 0,
                 kelembapan = item.hu ?: 0,
                 cuaca = item.weatherDesc ?: "",
-                kecepatanAngin = item.ws?.toInt() ?: 0,
-                foto = item.image ?: ""
+                kecepatanAngin = item.ws ?: 0.0,
+                foto = item.image ?: "",
+                tutupanAwan = item.tcc ?: 0
             )
         }
     }
