@@ -2,6 +2,7 @@ package com.fuad.sinus.ui.home
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,8 +39,9 @@ import com.fuad.sinus.ui.viewModel.WeatherViewModel
 fun Home(
     context: Context,
     viewModel: WeatherViewModel = viewModel(
-        factory = ViewModelFactory(Injection.provideWeatherRepository(context))
-    )
+        factory = ViewModelFactory(Injection.provideWeatherRepository(context), null)
+    ),
+    navigateToDetail: () -> Unit
 ) {
     val cuacaState = viewModel.cuaca.observeAsState()
 
@@ -67,6 +69,7 @@ fun Home(
                 ),
                 context = context
             )
+
             else -> HomeComponent(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -86,6 +89,13 @@ fun Home(
                 context = context
             )
         }
+        
+        DiagnoseSinus(
+            modifier = Modifier.padding(16.dp)
+                .clickable {
+                    navigateToDetail()
+                }
+        )
     }
 }
 
@@ -114,7 +124,9 @@ fun HomeComponent(
         )
 
         Rekomendasi(
-            modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
             rekomendasi = rekomendasi,
         )
     }
@@ -221,24 +233,61 @@ fun Rekomendasi(
     }
 }
 
+@Composable
+fun DiagnoseSinus(
+    modifier: Modifier
+) {
+    Card(
+        modifier = modifier
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = "Prediksi Alergi Anda Sekarang",
+                fontSize = 20.sp,
+                color = Blue,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Image(
+                modifier = Modifier.size(60.dp),
+                painter = painterResource(R.drawable.diagnose),
+                contentDescription = null,
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun HomePreview() {
     SinusTheme {
-        HomeComponent(
-            modifier = Modifier.padding(top = 32.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
-            suhu = 25,
-            kelembapan = 80,
-            cuaca = "Udara Kabur",
-            kecepatanAngin = 2.2,
-            foto = "https://api-apps.bmkg.go.id/storage/icon/cuaca/berawan-am.svg",
-            context = LocalContext.current,
-            rekomendasi = Rekomendasi(
-                rekomendasi = "Hindari keluar rumah! Kelembapan tinggi dan cuaca buruk bisa memperparah sinus. Gunakan masker jika terpaksa keluar.",
-                icon = R.drawable.sinus
+        Column {
+            HomeComponent(
+                modifier = Modifier.padding(
+                    top = 32.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                ),
+                suhu = 25,
+                kelembapan = 80,
+                cuaca = "Udara Kabur",
+                kecepatanAngin = 2.2,
+                foto = "https://api-apps.bmkg.go.id/storage/icon/cuaca/berawan-am.svg",
+                context = LocalContext.current,
+                rekomendasi = Rekomendasi(
+                    rekomendasi = "Hindari keluar rumah! Kelembapan tinggi dan cuaca buruk bisa memperparah sinus. Gunakan masker jika terpaksa keluar.",
+                    icon = R.drawable.sinus
+                )
             )
-        )
 
-
+            DiagnoseSinus(modifier = Modifier.padding(16.dp))
+        }
     }
 }
