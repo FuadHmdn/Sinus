@@ -463,7 +463,7 @@ fun WelcomeDiagnose(
                 .size(310.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        Spacer(modifier = Modifier.height(64.dp))
+        Spacer(modifier = Modifier.height(88.dp))
         Button(
             onClick = {
                 navigateToDiagnose()

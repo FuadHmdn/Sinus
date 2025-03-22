@@ -16,8 +16,10 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.fuad.sinus.ui.artikel.Artikel
 import com.fuad.sinus.ui.diagnose.Diagnose
 import com.fuad.sinus.ui.diagnose.DiagnoseResult
 import com.fuad.sinus.ui.diagnose.DiagnoseViewModel
@@ -43,23 +45,27 @@ fun SinusApp(
             exitTransition = {
                 slideOutHorizontally(targetOffsetX = { -it })
             },
-        ){
-            composable(Screen.home.route){
-                Home(LocalContext.current){
-                    navController.navigate(Screen.welcomeDiagnose.route)
-                }
+        ) {
+            composable(Screen.home.route) {
+                Home(
+                    context = LocalContext.current,
+                    navigateToDetail = { navController.navigate(Screen.welcomeDiagnose.route) },
+                    navigateToDetailArtikel = { a, b, c ->
+                        navController.navigate(Screen.artikel.createRoute(a, b, c))
+                    }
+                )
             }
-            composable(Screen.diagnose.route){
-                Diagnose(){ d1, d2, d3, d4 ->
+            composable(Screen.diagnose.route) {
+                Diagnose() { d1, d2, d3, d4 ->
                     navController.navigate(Screen.diagnoseResult.createRoute(d1, d2, d3, d4))
                 }
             }
-            composable(Screen.welcomeDiagnose.route){
+            composable(Screen.welcomeDiagnose.route) {
                 WelcomeDiagnose(
                     modifier = Modifier
                         .padding(top = 34.dp, start = 16.dp, end = 16.dp)
                         .fillMaxWidth()
-                ){
+                ) {
                     navController.navigate(Screen.diagnose.route)
                 }
             }
@@ -76,9 +82,28 @@ fun SinusApp(
                 val d2 = backStackEntry.arguments?.getFloat("d2") ?: 0f
                 val d3 = backStackEntry.arguments?.getFloat("d3") ?: 0f
                 val d4 = backStackEntry.arguments?.getFloat("d4") ?: 0f
-                DiagnoseResult(Modifier.padding(start = 16.dp, end = 16.dp), d1, d2, d3, d4){
-                    navController.navigate(Screen.home.route){
-                        popUpTo(Screen.diagnose.route) { inclusive = true }
+                DiagnoseResult(Modifier.padding(start = 16.dp, end = 16.dp), d1, d2, d3, d4) {
+                    navController.navigate(Screen.home.route) {
+                        popUpTo(0)
+                        launchSingleTop = true
+                    }
+                }
+            }
+            composable(
+                route = Screen.artikel.route,
+                arguments = listOf(
+                    navArgument("a") { type = NavType.IntType },
+                    navArgument("b") { type = NavType.IntType },
+                    navArgument("c") { type = NavType.IntType },
+                )
+            ) {
+                val a = it.arguments?.getInt("a")?: 0
+                val b = it.arguments?.getInt("b")?: 0
+                val c = it.arguments?.getInt("c")?: 0
+
+                Artikel(a, b, c){
+                    navController.navigate(Screen.home.route) {
+                        popUpTo(0)
                         launchSingleTop = true
                     }
                 }

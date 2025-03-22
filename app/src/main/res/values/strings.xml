@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">Sinus</string>
+
+    <string name="artikel_1_title">Apa Itu Sinusitis?</string>
+    <string name="artikel_1_content">
+        Sinusitis adalah kondisi peradangan atau infeksi yang terjadi pada rongga sinus, yaitu ruang berisi udara yang terletak di sekitar hidung, pipi, dahi, dan belakang mata.\n\nSinus memiliki peran penting dalam menjaga kelembapan udara yang kita hirup serta membantu menyaring partikel kotoran dan bakteri. Namun, ketika terjadi infeksi atau iritasi, dinding sinus bisa membengkak dan menyebabkan penyumbatan aliran lendir. Hal ini dapat menimbulkan rasa tidak nyaman dan berujung pada infeksi yang lebih parah.\n\nSinusitis dapat terjadi akibat berbagai penyebab, seperti infeksi virus, bakteri, atau alergi. Infeksi virus, seperti flu atau pilek, sering kali menjadi pemicu utama sinusitis akut. Sementara itu, sinusitis kronis biasanya berkaitan dengan alergi, polip hidung, atau paparan zat iritan seperti asap rokok dan polusi udara. Jika lendir tidak bisa mengalir dengan baik, bakteri dapat berkembang biak dan memperparah infeksi.\n\n
+        Gejala umum sinusitis meliputi:\n
+        - Hidung tersumbat atau berair\n
+        - Nyeri atau tekanan di sekitar wajah, terutama di sekitar hidung dan mata\n
+        - Sakit kepala, terutama saat menunduk atau bergerak cepat\n
+        - Lendir berwarna kuning atau hijau dari hidung\n
+        - Demam, batuk, dan kelelahan\n\nSinusitis bisa bersifat akut (berlangsung kurang dari 4 minggu) atau kronis (berlangsung lebih dari 12 minggu). Jika gejala tidak membaik setelah beberapa minggu atau semakin memburuk, penting untuk segera berkonsultasi dengan dokter guna mendapatkan diagnosis dan perawatan yang tepat.
+    </string>
+
+    <string name="artikel_2_title">Jenis-Jenis Sinusitis dan Gejalanya</string>
+    <string name="artikel_2_content">
+        Sinusitis dapat dikategorikan berdasarkan lokasi terjadinya infeksi pada rongga sinus. Berikut adalah empat jenis sinusitis yang paling umum terjadi:\n\n\n**Sinusitis Maksilaris**: Infeksi di sinus maksilaris (bawah mata) dapat menyebabkan nyeri pipi, sakit gigi atas, dan hidung tersumbat.\n\n**Sinusitis Frontalis**: Infeksi di sinus frontal (dahi) menyebabkan sakit kepala di dahi yang semakin parah saat menunduk.\n\n**Sinusitis Etmoidalis**: Infeksi sinus etmoid (antara mata) bisa menyebabkan nyeri hidung, sakit kepala, demam, dan penglihatan kabur.\n\n**Sinusitis Sfenoidalis**: Infeksi sinus sfenoid (belakang hidung dan mata) menyebabkan nyeri belakang kepala, pusing, dan gangguan penglihatan.\n\nMemahami jenis-jenis sinusitis dapat membantu menentukan pengobatan yang tepat. Jika mengalami gejala yang mengganggu, segera lakukan pemeriksaan untuk mendapatkan diagnosis yang lebih akurat.
+    </string>
+
+    <string name="artikel_3_title">Cara Mengatasi Sinusitis Secara Alami</string>
+    <string name="artikel_3_content">
+        Sinusitis ringan sering kali bisa dikelola dengan perawatan alami di rumah:\n\n**Menghirup uap air panas**: Melembapkan saluran hidung dan melegakan pernapasan.\n\n**Semprotan hidung dengan larutan garam**: Membersihkan lendir dan mengurangi pembengkakan.\n\n**Kompres wajah dengan air hangat**: Mengurangi nyeri dan memperlancar aliran lendir.\n\n**Minum banyak air**: Membantu lendir tetap encer dan mudah dikeluarkan.\n\n**Menghindari alergen dan iritan**: Hindari debu, asap rokok, dan polusi yang memperparah kondisi sinus.\n\nJika gejala tidak membaik dalam waktu 10 hari atau semakin parah, segera konsultasikan dengan dokter untuk mendapatkan penanganan medis yang lebih intensif.
+    </string>
+
+    <string name="artikel_4_title">Kapan Harus ke Dokter untuk Sinusitis?</string>
+    <string name="artikel_4_content">
+        Sebagian besar kasus sinusitis dapat sembuh sendiri, tetapi Anda perlu segera mencari bantuan medis jika:\n\n- Gejala berlangsung lebih dari 10 hari tanpa perbaikan.\n- Mengalami demam tinggi selama lebih dari tiga hari.\n- Nyeri wajah semakin parah atau menjalar ke bagian kepala lainnya.\n- Penglihatan menjadi buram atau ada pembengkakan di sekitar mata.\n- Lendir hidung berbau tidak sedap, disertai darah, atau sangat kental.\n\nDokter mungkin akan meresepkan antibiotik jika sinusitis disebabkan oleh infeksi bakteri. Jika sinusitis kronis tidak membaik dengan pengobatan biasa, terapi lain seperti kortikosteroid, prosedur pembersihan sinus, atau operasi mungkin diperlukan.\n\nJangan ragu untuk mencari bantuan medis jika gejala semakin memburuk.
+    </string>
 </resources>

@@ -5,12 +5,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -21,11 +27,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,12 +45,14 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.fuad.sinus.R
+import com.fuad.sinus.data.Artikel
 import com.fuad.sinus.data.Rekomendasi
 import com.fuad.sinus.di.Injection
 import com.fuad.sinus.ui.theme.Blue
 import com.fuad.sinus.ui.theme.SinusTheme
 import com.fuad.sinus.ui.viewModel.ViewModelFactory
 import com.fuad.sinus.ui.viewModel.WeatherViewModel
+import kotlin.math.max
 
 @Composable
 fun Home(
@@ -47,7 +60,8 @@ fun Home(
     viewModel: WeatherViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideWeatherRepository(context), null)
     ),
-    navigateToDetail: () -> Unit
+    navigateToDetail: () -> Unit,
+    navigateToDetailArtikel: (Int, Int, Int) -> Unit
 ) {
     val cuacaState = viewModel.cuaca.observeAsState()
     val scrollState = rememberScrollState()
@@ -56,7 +70,11 @@ fun Home(
         viewModel.getCuaca()
     }
 
-    Column(modifier = Modifier.fillMaxWidth().verticalScroll(scrollState)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(scrollState)
+    ) {
         when (val cuaca = cuacaState.value) {
             null -> HomeComponent(
                 modifier = Modifier
@@ -96,13 +114,24 @@ fun Home(
                 context = context
             )
         }
-        
+
         DiagnoseSinus(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
                 .clickable {
                     navigateToDetail()
                 }
         )
+
+        Text(
+            text = "Baca artikel",
+            fontFamily = FontFamily(Font(R.font.poppins_semibold)),
+            modifier = Modifier.padding(horizontal = 16.dp),
+        )
+        Spacer(Modifier.height(8.dp))
+        Article(){ a, b, c ->
+            navigateToDetailArtikel(a,b,c)
+        }
     }
 }
 
@@ -159,6 +188,10 @@ fun CuacaCard(
             Text(
                 text = "Prediksi Cuaca 1 jam kedepan",
                 fontFamily = FontFamily(Font(R.font.poppins_semibold)),
+            )
+            Text(
+                text = "Bandar Lampung",
+                fontFamily = FontFamily(Font(R.font.poppins_regular)),
             )
             Spacer(Modifier.height(8.dp))
 
@@ -253,6 +286,71 @@ fun Rekomendasi(
 }
 
 @Composable
+fun Article(
+    modifier: Modifier = Modifier,
+    navigateToDetail: (Int, Int, Int) -> Unit
+) {
+    val artikel = listOf(
+        Artikel(
+            title = R.string.artikel_1_title,
+            isi = R.string.artikel_1_content,
+            banner = R.drawable.sinus_illustration
+        ),
+        Artikel(
+            title = R.string.artikel_2_title,
+            isi = R.string.artikel_2_content,
+            banner = R.drawable.sinus_illustration_4
+        ),
+        Artikel(
+            title = R.string.artikel_3_title,
+            isi = R.string.artikel_3_content,
+            banner = R.drawable.sinus_illustration_2
+        ),
+        Artikel(
+            title = R.string.artikel_4_title,
+            isi = R.string.artikel_4_content,
+            banner = R.drawable.sinus_illustration_3
+        ),
+    )
+    Column(
+        modifier = modifier
+    ) {
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp)
+        ) {
+            itemsIndexed(artikel) { index, item ->
+                Column(
+                    modifier = Modifier.width(240.dp)
+                ) {
+                    Card(
+                        modifier = Modifier.size(width = 240.dp, height = 130.dp)
+                            .clickable { navigateToDetail(item.banner, item.isi, item.title) }
+                    ) {
+                        Image(
+                            painter = painterResource(item.banner),
+                            contentDescription = stringResource(item.title),
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+
+                    Text(
+                        text = stringResource(item.title),
+                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun DiagnoseSinus(
     modifier: Modifier
 ) {
@@ -268,7 +366,7 @@ fun DiagnoseSinus(
         ) {
             Text(
                 modifier = Modifier.weight(1f),
-                text = "Prediksi Alergi Anda Sekarang",
+                text = "Sinusitis atau Bukan? Cari Tahu di Sini!",
                 fontSize = 20.sp,
                 color = Blue,
                 fontFamily = FontFamily(Font(R.font.poppins_semibold)),
@@ -309,6 +407,15 @@ private fun HomePreview() {
             )
 
             DiagnoseSinus(modifier = Modifier.padding(16.dp))
+            Text(
+                text = "Baca artikel",
+                fontFamily = FontFamily(Font(R.font.poppins_semibold)),
+                modifier = Modifier.padding(horizontal = 16.dp),
+            )
+            Spacer(Modifier.height(8.dp))
+            Article{ a,b,c ->
+
+            }
         }
     }
 }
