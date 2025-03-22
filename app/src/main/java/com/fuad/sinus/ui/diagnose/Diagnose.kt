@@ -47,7 +47,7 @@ fun Diagnose(
     viewModel: DiagnoseViewModel = viewModel(
         factory = ViewModelFactory(null, Injection.provideDiagnoseRepository())
     ),
-    navigateToResult: () -> Unit
+    navigateToResult: (Double, Double, Double, Double) -> Unit
 ) {
     val scrollState = rememberScrollState()
     var step by remember { mutableStateOf(1) }
@@ -58,9 +58,8 @@ fun Diagnose(
     var checkedStates3 by remember { mutableStateOf(List(4) { false }) }
     var checkedStates4 by remember { mutableStateOf(List(4) { false }) }
     var checkedStates5 by remember { mutableStateOf(List(4) { false }) }
-    LaunchedEffect(Unit) {
-        viewModel.diagnoseSinus()
-    }
+
+    LaunchedEffect(Unit) { viewModel.removeResult() }
 
     Column(
         modifier = Modifier
@@ -159,7 +158,35 @@ fun Diagnose(
                     }
                 )
             }
-            6 -> navigateToResult()
+            6 -> {
+                Diagnose5(
+                    checkedStates = checkedStates5,
+                    onCheckedChange = { index, isChecked ->
+                        checkedStates5 = checkedStates5.toMutableList().also { it[index] = isChecked }
+
+                        when (index) {
+                            0 -> viewModel.seringTerkenaAsma = if (isChecked) 1 else 0
+                            1 -> viewModel.nyeriSekitarHidung = if (isChecked) 1 else 0
+                            2 -> viewModel.sakitLeher = if (isChecked) 1 else 0
+                            3 -> viewModel.nyeriTelinga = if (isChecked) 1 else 0
+                        }
+
+                    }
+                )
+                viewModel.diagnoseSinus()
+                    .also {
+                        navigateToResult(
+                            viewModel.maksilaris,
+                            viewModel.frontalis,
+                            viewModel.etmoidalis,
+                            viewModel.sfenoidalis
+                        )
+                        step--
+                        Log.d("HASIL", viewModel.maksilaris.toString())
+                        Log.d("HASIL", viewModel.nyeriWajah.toString())
+                        Log.d("HASIL", "SELESAI")
+                    }
+            }
         }
 
         Spacer(modifier = Modifier.height(84.dp))
@@ -412,8 +439,9 @@ fun WelcomeDiagnose(
     modifier: Modifier,
     navigateToDiagnose: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
     Column(
-        modifier = modifier
+        modifier = modifier.verticalScroll(scrollState)
     ) {
         Text(
             text = "Selamat datang\nBagaimana kabar anda hari ini?",
@@ -435,7 +463,7 @@ fun WelcomeDiagnose(
                 .size(310.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(64.dp))
         Button(
             onClick = {
                 navigateToDiagnose()
@@ -453,6 +481,7 @@ fun WelcomeDiagnose(
                 fontSize = 14.sp
             )
         }
+        Spacer(Modifier.height(24.dp))
     }
 }
 

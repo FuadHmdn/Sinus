@@ -8,9 +8,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +23,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,12 +50,13 @@ fun Home(
     navigateToDetail: () -> Unit
 ) {
     val cuacaState = viewModel.cuaca.observeAsState()
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
         viewModel.getCuaca()
     }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth().verticalScroll(scrollState)) {
         when (val cuaca = cuacaState.value) {
             null -> HomeComponent(
                 modifier = Modifier
@@ -143,11 +150,18 @@ fun CuacaCard(
     context: Context
 ) {
     Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = modifier
     ) {
         Column(
             modifier = modifier
         ) {
+            Text(
+                text = "Prediksi Cuaca 1 jam kedepan",
+                fontFamily = FontFamily(Font(R.font.poppins_semibold)),
+            )
+            Spacer(Modifier.height(8.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -159,6 +173,7 @@ fun CuacaCard(
                         text = "$suhu°C",
                         fontSize = 60.sp,
                         fontWeight = FontWeight.SemiBold,
+                        fontFamily = FontFamily(Font(R.font.poppins_semibold)),
                         color = Blue
                     )
 
@@ -167,6 +182,7 @@ fun CuacaCard(
                         text = cuaca,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
+                        fontFamily = FontFamily(Font(R.font.poppins_semibold)),
                         color = Blue
                     )
                 }
@@ -190,13 +206,14 @@ fun CuacaCard(
                 modifier = Modifier,
                 text = "Kelembapan $kelembapan%",
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
+                fontFamily = FontFamily(Font(R.font.poppins_semibold)),
             )
 
             Text(
                 modifier = Modifier,
                 text = "Kecepatan Angin $kecepatanAngin km/jam",
                 fontSize = 14.sp,
+                fontFamily = FontFamily(Font(R.font.poppins_semibold)),
                 fontWeight = FontWeight.Medium
             )
         }
@@ -209,6 +226,7 @@ fun Rekomendasi(
     rekomendasi: Rekomendasi,
 ) {
     Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = modifier
     ) {
         Row(
@@ -221,6 +239,7 @@ fun Rekomendasi(
                 modifier = Modifier.weight(1f),
                 text = rekomendasi.rekomendasi,
                 fontSize = 14.sp,
+                fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight.Medium
             )
 
@@ -238,6 +257,7 @@ fun DiagnoseSinus(
     modifier: Modifier
 ) {
     Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = modifier
     ) {
         Row(
@@ -251,6 +271,7 @@ fun DiagnoseSinus(
                 text = "Prediksi Alergi Anda Sekarang",
                 fontSize = 20.sp,
                 color = Blue,
+                fontFamily = FontFamily(Font(R.font.poppins_semibold)),
                 fontWeight = FontWeight.SemiBold
             )
 

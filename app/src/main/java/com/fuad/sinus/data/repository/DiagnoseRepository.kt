@@ -1,21 +1,15 @@
 package com.fuad.sinus.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class DiagnoseRepository {
 
-    private val _maksilaris = MutableLiveData<Double?>()
-    val maksilaris: LiveData<Double?> get() = _maksilaris
-
-    private val _frontalis = MutableLiveData<Double?>()
-    val frontalis: LiveData<Double?> get() = _frontalis
-
-    private val _etmoidalis = MutableLiveData<Double?>()
-    val etmoidalis: LiveData<Double?> get() = _etmoidalis
-
-    private val _sfenoidalis = MutableLiveData<Double?>()
-    val sfenoidalis: LiveData<Double?> get() = _sfenoidalis
+    var maksilaris: Double = 0.0
+    var frontalis:Double = 0.0
+    var etmoidalis: Double = 0.0
+    var sfenoidalis: Double = 0.0
 
     fun diagnose(
         nyeriWajah: Int,
@@ -39,7 +33,7 @@ class DiagnoseRepository {
         sakitLeher: Int,
         nyeriTelinga: Int
     ) {
-        _maksilaris.value = diagnoseMaksilaris(
+        maksilaris = diagnoseMaksilaris(
             nyeriWajah,
             hidungTersumbatLendirKuning,
             lendirMengalirSedikit,
@@ -51,7 +45,7 @@ class DiagnoseRepository {
             sakitGigiNyeri
         )
 
-        _frontalis.value = diagnoseFrontalis(
+        frontalis = diagnoseFrontalis(
             nyeriWajah,
             hidungTersumbatLendirKuning,
             berkurangnyaDayaPenciuman,
@@ -64,7 +58,7 @@ class DiagnoseRepository {
             nyeriAntaraMata
         )
 
-        _etmoidalis.value = diagnoseEtimodalis(
+        etmoidalis = diagnoseEtimodalis(
             nyeriWajah,
             hidungTersumbatLendirKuning,
             berkurangnyaDayaPenciuman,
@@ -76,7 +70,7 @@ class DiagnoseRepository {
             nyeriSekitarHidung
         )
 
-        _sfenoidalis.value = diagnoseSfenoidalis(
+        sfenoidalis = diagnoseSfenoidalis(
             nyeriWajah,
             hidungTersumbatLendirKuning,
             hidungTersumbatBertahun,
